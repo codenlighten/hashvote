@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>HASH VOTE - Blockchain VOTING</title>
+
+		<!-- External Libraries -->
+		<script src="https://unpkg.com/bsv@1.5"></script>
+		<script src="https://cdn.jsdelivr.net/npm/bsv@1.5.0/bsv-mnemonic.min.js"></script>
+		<link
+			href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300&display=swap"
+			rel="stylesheet"
+		/>
+		<link
+			rel="stylesheet"
+			href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+		/>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/uuid/8.1.0/uuidv4.min.js"></script>
+
+		<style>
+			body {
+				font-family: "Montserrat", sans-serif;
+				background-color: #f4f4f8;
+				word-wrap: break-word;
+			}
+
+			.section-header {
+				text-align: center;
+				margin-top: 40px;
+				border-radius: 12px;
+			}
+
+			#myHashID p,
+			#currentCampaigns p {
+				font-size: 20px;
+			}
+
+			#myHashID span,
+			#currentCampaigns span {
+				font-weight: bold;
+			}
+
+			button {
+				margin-top: 20px;
+			}
+
+			section {
+				margin-top: 40px;
+			}
+
+			header {
+				background-color: #333;
+				color: #fff;
+				padding: 20px 0;
+			}
+			.hidden {
+				display: none;
+			}
+
+			.container {
+				margin-top: 40px;
+			}
+
+			#registerOrLogin {
+				text-align: center;
+			}
+
+			#registerOrLogin button {
+				margin: 0 10px;
+				background-color: #333;
+				color: #fff;
+			}
+
+			#registration-form {
+				margin-top: 40px;
+			}
+
+			#find-id-form {
+				margin-top: 40px;
+			}
+
+			#myHashID {
+				margin-top: 40px;
+			}
+
+			#currentCampaigns {
+				margin-top: 40px;
+			}
+
+			#currentCampaigns p {
+				margin-top: 20px;
+			}
+
+			#currentCampaigns span {
+				font-weight: normal;
+			}
+
+			#currentCampaigns ul {
+				list-style: none;
+				padding: 0;
+			}
+
+			#currentCampaigns ul li {
+				margin-bottom: 10px;
+			}
+
+			#currentCampaigns ul li a {
+				color: #333;
+				text-decoration: none;
+			}
+
+			#currentCampaigns ul li a:hover {
+				color: #333;
+				text-decoration: underline;
+			}
+
+			#currentCampaigns ul li a:visited {
+				color: #333;
+			}
+
+			#currentCampaigns ul li a:active {
+				color: #333;
+			}
+
+			#currentCampaigns ul li a:focus {
+				color: #333;
+			}
+
+			#currentCampaigns ul li a:link {
+				color: #333;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="container section-header">
+			<h1>HASH VOTE</h1>
+			<h2>Blockchain VOTING</h2>
+			<p id="myAddress"></p>
+		</header>
+		<div class="container" id="registerOrLogin">
+			<button
+				type="button"
+				class="btn btn-primary"
+				onclick="document.getElementById('find').classList.add('hidden'); document.getElementById('reg').classList.remove('hidden');"
+			>
+				Register
+			</button>
+			<button
+				type="button"
+				class="btn btn-primary"
+				onclick="document.getElementById('reg').classList.add('hidden'); document.getElementById('find').classList.remove('hidden');"
+			>
+				Find ID
+			</button>
+		</div>
+		<div class="container" id="verified">
+			<h3>Verified</h3>
+			<p id="verified"></p>
+		</div>
+		<section id="reg" class="container hidden">
+			<h3>Register</h3>
+			<div id="registration-form">
+				<div class="form-group">
+					<label for="first_name">First Name</label>
+					<input
+						type="text"
+						class="form-control"
+						name="first_name"
+						id="first_name"
+						placeholder="First Name"
+					/>
+				</div>
+				<div class="form-group">
+					<label for="last_name">Last Name</label>
+					<input
+						type="text"
+						class="form-control"
+						name="last_name"
+						id="last_name"
+						placeholder="Last Name"
+					/>
+				</div>
+				<div class="form-group">
+					<label for="email">Email</label>
+					<input
+						type="text"
+						class="form-control"
+						name="email"
+						id="email"
+						placeholder="Email"
+					/>
+				</div>
+				<div class="form-group">
+					<label for="phone">Phone</label>
+					<input
+						type="text"
+						class="form-control"
+						name="phone"
+						id="phone"
+						placeholder="Phone"
+					/>
+				</div>
+				<div class="form-group">
+					<label for="address">Address</label>
+					<input
+						type="text"
+						class="form-control"
+						name="address"
+						id="address"
+						placeholder="Address"
+					/>
+				</div>
+				<div class="form-group">
+					<label for="city">City</label>
+					<input
+						type="text"
+						class="form-control"
+						name="city"
+						id="city"
+						placeholder="City"
+					/>
+				</div>
+				<div class="form-group">
+					<label for="state">State</label>
+					<input
+						type="text"
+						class="form-control"
+						name="state"
+						id="state"
+						placeholder="State"
+					/>
+				</div>
+				<div class="form-group">
+					<label for="zip">Zip</label>
+					<input
+						type="text"
+						class="form-control"
+						name="zip"
+						id="zip"
+						placeholder="Zip"
+					/>
+				</div>
+				<div class="form-group">
+					<label for="country">Country</label>
+					<input
+						type="text"
+						class="form-control"
+						name="country"
+						id="country"
+						placeholder="Country"
+					/>
+				</div>
+				<div class="form-group">
+					<label for="uuid">UUID</label>
+					<p class="form-control" name="uuid" id="uuid" placeholder="UUID"></p>
+				</div>
+				<button onclick="submitForm()" class="btn btn-primary">Register</button>
+			</div>
+		</section>
+
+		<section id="find" class="container hidden">
+			<h3>Find ID</h3>
+			<div id="find-id-form">
+				<div class="form-group">
+					<label for="uuid_search">UUID</label>
+					<input
+						type="text"
+						class="form-control"
+						name="uuid_search"
+						id="uuid_search"
+						placeholder="UUID"
+					/>
+				</div>
+
+				<button type="submit" class="btn btn-primary">Find ID</button>
+			</div>
+		</section>
+
+		<section class="container hidden" id="myHashID">
+			<h3>My Hash ID</h3>
+			<p>Hash ID: <span id="hash_id"></span></p>
+			<p>BSV Address: <span id="bsv_address"></span></p>
+		</section>
+
+		<section class="container" id="currentCampaigns">
+			<h3>Current Campaigns</h3>
+			<p>
+				Current Campaigns:
+				<span id="current_campaigns"> NH 2024 Governor </span>
+			</p>
+		</section>
+		<script src="./transactions.js"></script>
+		<script>
+			const Buffer = bsv.deps.Buffer;
+			function generateMnemonic() {
+				const Mnemonic = bsv.Mnemonic;
+				let code = new Mnemonic(Mnemonic.Words["english"]);
+				console.log(code.toString());
+				let hdPrivateKey = code.toHDPrivateKey();
+				let hdPublicKey = hdPrivateKey.hdPublicKey;
+				let address = hdPublicKey.publicKey.toAddress();
+				console.log(address.toString());
+				let publicKey = hdPublicKey.publicKey.toString();
+				console.log(publicKey);
+				let privateKey = hdPrivateKey.privateKey.toString();
+				console.log(privateKey);
+				//add address to local storage
+				document.getElementById("bsv_address").innerHTML = address.toString();
+				localStorage.setItem("address", address.toString());
+				//add mnemonic to local storage
+				localStorage.setItem("mnemonic", code.toString());
+				//add public key to local storage
+				localStorage.setItem("publicKey", publicKey);
+				//add private key to local storage
+				localStorage.setItem("privateKey", privateKey);
+			}
+			async function generateRandomAddress() {
+				const privateKey = new bsv.PrivateKey.fromRandom();
+				const address = privateKey.toAddress();
+				console.log(`Random Address: ${address.toString()}`);
+				if (!localStorage.getItem("randomAddress")) {
+					localStorage.setItem("randomAddress", address.toString());
+				}
+			}
+			async function generateUUID() {
+				let uuid = await uuidv4();
+				console.log(uuid);
+				document.getElementById("uuid").value = uuid;
+				return uuid;
+			}
+			// on dom load, check for mnemonic in local storage
+			window.onload = async function () {
+				generateRandomAddress();
+				let mnemonic = localStorage.getItem("mnemonic");
+				if (mnemonic) {
+					document.getElementById("bsv_address").innerHTML =
+						localStorage.getItem("address");
+					//uuid
+					document.getElementById("uuid").innerHTML =
+						localStorage.getItem("uuid");
+					document.getElementById("myAddress").innerHTML =
+						localStorage.getItem("address");
+				} else {
+					generateMnemonic();
+					const uuid = await generateUUID();
+					localStorage.setItem("uuid", uuid);
+				}
+			};
+
+			async function hashData(data) {
+				const hash = bsv.crypto.Hash.sha256(Buffer.from(data));
+				const hashHex = hash.toString("hex");
+				console.log(`Data being hashed: ${data}`);
+				return hashHex;
+			}
+
+			async function signData(data, privateKey) {
+				const signature = bsv.crypto.ECDSA.sign(
+					Buffer.from(data),
+					bsv.PrivateKey.fromWIF(privateKey)
+				);
+				const signatureHex = signature.toString();
+				console.log(`Data being signed: ${data}`);
+				console.log(`Signature produced: ${signatureHex}`);
+
+				return signatureHex;
+			}
+
+			async function verifyData(data, signature, publicKey) {
+				const verified = bsv.crypto.ECDSA.verify(
+					Buffer.from(data),
+					bsv.crypto.Signature.fromString(signature),
+					bsv.PublicKey.fromString(publicKey)
+				);
+				console.log(`Data being verified: ${data}`);
+				console.log(`Signature being verified: ${signature}`);
+				console.log(`Public Key used for verification: ${publicKey}`);
+				console.log(`Signature Verification: ${verified}`);
+				return verified;
+			}
+
+			async function verifyHash(data, hash) {
+				const hashHex = await hashData(data);
+				const isValid = hashHex === hash;
+				console.log(`Expected hash: ${hash}`);
+				console.log(`Computed hash: ${hashHex}`);
+				console.log(`Hash Verification: ${isValid}`);
+				return isValid;
+			}
+
+			async function verifySignature(data, signature, publicKey) {
+				const verified = await verifyData(data, signature, publicKey);
+				return verified;
+			}
+
+			async function verifyHashAndSignature(data, hash, signature, publicKey) {
+				const hashVerified = await verifyHash(data, hash);
+				const signatureVerified = await verifySignature(
+					data,
+					signature,
+					publicKey
+				);
+				return hashVerified && signatureVerified;
+			}
+
+			async function verifyHashAndSignatureAndAddress(
+				data,
+				hash,
+				signature,
+				publicKey,
+				address
+			) {
+				const hashVerified = await verifyHash(data, hash);
+				const signatureVerified = await verifySignature(
+					Buffer.from(hash, "hex"),
+					signature,
+					publicKey
+				);
+
+				const addressVerified = await verifyAddress(publicKey, address);
+				return hashVerified && signatureVerified && addressVerified;
+			}
+			async function verifyAddress(publicKey, address) {
+				const addressFromPublicKey = new bsv.PublicKey(publicKey)
+					.toAddress()
+					.toString();
+				const isValid = addressFromPublicKey === address;
+				console.log(`Expected address: ${address}`);
+				console.log(
+					`Computed address from Public Key: ${addressFromPublicKey}`
+				);
+				console.log(`Address Verification: ${isValid}`);
+				return isValid;
+			}
+
+			async function submitForm() {
+				const data = {
+					first_name: document.getElementById("first_name").value,
+					last_name: document.getElementById("last_name").value,
+					email: document.getElementById("email").value,
+					phone: document.getElementById("phone").value,
+					address: document.getElementById("address").value,
+					city: document.getElementById("city").value,
+					state: document.getElementById("state").value,
+					zip: document.getElementById("zip").value,
+					country: document.getElementById("country").value,
+					uuid: document.getElementById("uuid").value,
+				};
+				const dataString = JSON.stringify(data);
+				const hash = await hashData(dataString);
+				console.log(`Hashed Data: ${hash}`);
+
+				// Convert hash string to a buffer
+
+				const signature = await signData(
+					Buffer.from(hash, "hex"),
+					localStorage.getItem("privateKey")
+				);
+
+				const publicKey = localStorage.getItem("publicKey");
+				const address = localStorage.getItem("address");
+				const verified = await verifyHashAndSignatureAndAddress(
+					dataString, // pass the original data for hash verification
+					hash,
+					signature,
+					publicKey,
+					address
+				);
+
+				if (verified) {
+					console.log("verified");
+					document.getElementById("hash_id").innerHTML = hash;
+					document.getElementById("verified").innerHTML = "Verified";
+					document.getElementById("verified").style.color = "green";
+					//class toggle
+          localStorage.setItem("verified", "true");
+          document.getElementById("reg").classList.add("hidden");
+          document.getElementById("find").classList.add("hidden");
+          localStorage.setItem("hash_id", hash);
+					document.getElementById("myHashID").classList.remove("hidden");
+				} else {
+					console.log("not verified");
+				}
+			}
+
+			// async function findId() {
+			// 	const uuid = document.getElementById("uuid_search").value;
+			// 	const hash = await hashData(uuid);
+			// 	const signature = await signData(
+			// 		uuid,
+			// 		localStorage.getItem("privateKey")
+			// 	);
+			// 	const publicKey = localStorage.getItem("publicKey");
+			// 	const address = localStorage.getItem("address");
+			// 	const verified = await verifyHashAndSignatureAndAddress(
+			// 		uuid,
+			// 		hash,
+			// 		signature,
+			// 		publicKey,
+			// 		address
+			// 	);
+			// 	if (verified) {
+			// 		console.log("verified");
+			// 		document.getElementById("hash_id").innerHTML = hash;
+			// 	} else {
+			// 		console.log("not verified");
+			// 	}
+			// }
+
+			// async function getCurrentCampaigns() {
+			// 	const response = await fetch("http://localhost:3000/campaigns");
+			// 	const campaigns = await response.json();
+			// 	console.log(campaigns);
+			// 	document.getElementById("current_campaigns").innerHTML = campaigns;
+			// }
+
+			// // add classlist toggle to all hidden sections
+			// const hiddenSections = document.querySelectorAll(".hidden");
+			// hiddenSections.forEach((section) => {
+			// 	section.classList.toggle("hidden");
+			// });
+
+			//
+		</script>
+	</body>
+</html>
